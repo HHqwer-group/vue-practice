@@ -4,6 +4,7 @@ import TaskEditor from './TaskEditor.vue'
 import TaskItem from './TaskItem.vue'
 
 const labTheme = inject('labTheme')
+const sharedNote = new URLSearchParams(window.location.search).get('sharedNote') || ''
 const tasks = ref([
   { id: 1, title: '练习 props 传值', done: true },
   { id: 2, title: '用 emit 通知父组件', done: false },
@@ -45,6 +46,10 @@ function removeTask(id) {
 
 <template>
   <div class="stack">
+    <article v-if="sharedNote" class="practice-card">
+      <h3>分享的任务说明</h3>
+      <div v-html="sharedNote"></div>
+    </article>
     <article v-focus-card class="practice-card">
       <h3>父子组件通信</h3>
       <p class="muted">
