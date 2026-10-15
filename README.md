@@ -43,3 +43,7 @@ npm run dev
 - 新增一个“筛选全部 / 已完成 / 未完成”的 computed。
 - 安装 Vue Router，把四个模块改成四个页面。
 - 继续学习 Pinia，把任务数据放进全局 store。
+
+## 分支练习
+
+- `feature/B-test`：基于 `feature/B` 的测试分支，修改完成后合并回 `feature/B`。
