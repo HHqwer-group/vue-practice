@@ -8,19 +8,35 @@ const makeOrders = () => [
   { id: 'c', createdAt: 200, priceCents: 500, quantity: 1 },
 ];
 
-test('page stays within the requested size', () => {
-  assert.ok(pageOrders(makeOrders(), 1, 2).length <= 2);
+test('returns the requested 1-based page', () => {
+  const orders = makeOrders();
+  assert.deepEqual(pageOrders(orders, 1, 2).map(order => order.id), ['a', 'b']);
+  assert.deepEqual(pageOrders(orders, 2, 2).map(order => order.id), ['c']);
 });
 
-test('returns the newest order', () => {
-  assert.equal(newestOrders(makeOrders(), 1)[0].id, 'b');
+test('returns newest orders without reordering the input array', () => {
+  const orders = makeOrders();
+  const originalOrder = [...orders];
+
+  assert.deepEqual(newestOrders(orders, 2).map(order => order.id), ['b', 'c']);
+  assert.deepEqual(orders, originalOrder);
 });
 
 test('cancels an existing order', () => {
-  assert.deepEqual(cancelOrder(makeOrders(), 'b').map(order => order.id), ['a', 'c']);
+  const orders = makeOrders();
+  assert.deepEqual(cancelOrder(orders, 'b').map(order => order.id), ['a', 'c']);
+  assert.deepEqual(orders.map(order => order.id), ['a', 'b', 'c']);
 });
 
-test('sums single-quantity orders in cents', () => {
-  assert.equal(totalCents(makeOrders()), 2500);
+test('keeps all orders when the cancellation ID is unknown', () => {
+  const orders = makeOrders();
+  assert.deepEqual(cancelOrder(orders, 'missing'), orders);
+  assert.deepEqual(orders.map(order => order.id), ['a', 'b', 'c']);
+});
+
+test('sums each order price multiplied by its quantity in cents', () => {
+  const orders = makeOrders();
+  orders[1].quantity = 3;
+  assert.equal(totalCents(orders), 4100);
   assert.equal(totalCents([]), 0);
 });
