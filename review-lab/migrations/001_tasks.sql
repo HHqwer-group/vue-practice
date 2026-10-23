@@ -1,0 +1,6 @@
+CREATE TABLE tasks (
+  id INTEGER PRIMARY KEY,
+  owner_id INTEGER NOT NULL,
+  title TEXT NOT NULL,
+  done INTEGER NOT NULL DEFAULT 0
+);
