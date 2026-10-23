@@ -1,0 +1,4 @@
+PR workflow demonstration A
+Date: 2026-10-23
+Purpose: Verify branch creation, pull request submission, and merging into main.
+This record does not change application behavior.
